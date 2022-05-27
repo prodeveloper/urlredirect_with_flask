@@ -1,5 +1,15 @@
+{% extends 'base.html' %}
+
+    
+    {% block title %}
+        Code for {{code}}
+    {% endblock %}
+    
+        {% block main %}
+        Your URL
+        Saved as {{code}}
+        Go back to <a href="{{ url_for('home') }}">home</a>
+        {% endblock %}
 <h1>
-    Your URL
-    Saved as {{code}}
-    Go back to <a href="{{ url_for('home') }}">home</a>
+will this work?
 </h1>

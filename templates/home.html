@@ -1,9 +1,9 @@
-<h1>
-    URL shortener
-</h1>
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
+{% extends "base.html" %}
+
+{% block main %}
+
+
+
 <form action="your-url" method = "post">
     <label for="url">Website URL</label>
     <input type="url" name="url" value="https://stackoverflow.com/questions" required>
@@ -40,3 +40,5 @@
 {% else %}
     <p>No URLs saved yet.</p>
 {% endif %}
+    
+    {% endblock %}

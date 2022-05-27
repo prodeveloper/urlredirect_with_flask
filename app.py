@@ -44,6 +44,10 @@ def redirect_url(code):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.route('/api/list-urls')    
+def api():
+    return jsonify(list(session.keys())), 200
 def save_url():
         if check_exists():
             flash("URL already exists")
