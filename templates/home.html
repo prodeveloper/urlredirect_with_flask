@@ -1,7 +1,9 @@
 <h1>
     URL shortener
 </h1>
-
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+{% endfor %}
 <form action="your-url" method = "post">
     <label for="url">Website URL</label>
     <input type="url" name="url" value="https://stackoverflow.com/questions" required>
@@ -12,3 +14,29 @@
     <button>Shorten</button>
 
 </form>
+<h2>For files</h2>
+<form action="your-url" method = "post" enctype="multipart/form-data">
+    <label for="file">File</label>
+    <input type="file" name="file" type="file" required>
+    <br>
+    <label for="code">Shortname</label>
+    <input type="text" name="code" id="1" value="" required>
+    <br>
+    <button>Shorten</button>
+
+</form>
+
+<h2>What you saved previously</h2>
+
+{% if (urls) %}
+    <ul>
+        {% for url in urls %}
+            <li>
+                <a href="{{url_for('redirect_url',code=url)}}">{{ url }}</a>
+
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No URLs saved yet.</p>
+{% endif %}
