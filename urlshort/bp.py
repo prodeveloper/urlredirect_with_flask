@@ -1,23 +1,22 @@
 from crypt import methods
 import imp
-from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import json
 import os
 import datetime
 user_files = "/Users/jacobchencha/Documents/code/flask_tutorial/url-shortener/static/user_files"
-app = Flask(__name__)
-app.secret_key = 'xxiiieeaakrujrs'
-@app.route('/')
+bp = Blueprint('urlshort', __name__)
+@bp.route('/')
 def home():
     return render_template('home.html', name = "jacob", urls = session.keys())
-@app.route('/about')
+@bp.route('/about')
 def about():
     return {"message":"we are awesome"}
 
-@app.route('/your-url', methods=['POST', 'GET'])
+@bp.route('/your-url', methods=['POST', 'GET'])
 def your_url():
     if request.method == 'GET':
-        return redirect(url_for('home'))
+        return redirect(url_for('urlshort.home'))
     if request.method=='POST':
         if 'url' in request.form.keys():
             save_url()
@@ -27,7 +26,7 @@ def your_url():
         return render_template("your_url.html", 
             code = code,
             )
-@app.route('/<string:code>')
+@bp.route('/<string:code>')
 def redirect_url(code):
     with open('urls.json','r') as url_file:
         urls = json.load(url_file)
@@ -41,17 +40,17 @@ def redirect_url(code):
         else:
             abort(404)
     return code
-@app.errorhandler(404)
+@bp.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
-@app.route('/api/list-urls')    
+@bp.route('/api/list-urls')    
 def api():
     return jsonify(list(session.keys())), 200
 def save_url():
         if check_exists():
             flash("URL already exists")
-            return redirect(url_for('home'))
+            return redirect(url_for('urlshort.home'))
         save_to_urls()
 
 def save_file():
@@ -61,7 +60,7 @@ def save_file():
     full_name = os.path.join(user_files, f.filename)
     f.save(full_name)
     append_urls(full_name)
-    return redirect(url_for('home'))
+    return redirect(url_for('urlshort.home'))
 
 def save_to_urls():
     append_urls()

@@ -32,7 +32,7 @@
     <ul>
         {% for url in urls %}
             <li>
-                <a href="{{url_for('redirect_url',code=url)}}">{{ url }}</a>
+                <a href="{{url_for('urlshort.redirect_url',code=url)}}">{{ url }}</a>
 
             </li>
         {% endfor %}
